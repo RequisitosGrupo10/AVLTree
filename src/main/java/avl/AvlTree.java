@@ -53,7 +53,7 @@ public class AvlTree<T> {
       insertTop(node);
     } else if (searchClosestNode(node) == -1) {
       insertNodeLeft(node);
-    } else if (searchClosestNode(node) == +1) {
+    } else if (searchClosestNode(node) == 1) {
       insertNodeRight(node);
     }
   }
@@ -401,13 +401,13 @@ public class AvlTree<T> {
   }
 
   public int height(AvlNode<T> node) {
-    int result = 0;
+    int result;
+
     if (node == null) {
       result = -1;
     } else {
       result = node.getHeight();
     }
-
     return result;
   }
 
