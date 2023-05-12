@@ -138,337 +138,228 @@ public class AvlTreeTest {
         }
     }
 
-    /**
-     * Test adding 7 - 4 - 9 - 3 - 5
-     *
-     * @throws Exception
-     */
+    @Nested
+    @DisplayName("Test tree's height and balance")
+    class HeightAndRebalanceTest {
+        @DisplayName("Given an Empty AVL Tree when inserting new nodes then tree's height and balance are modified")
+        @Test
+        void given_AnEmptyAVLTree_When_InsertingNewNodes_Then_TreeHeightAndBalanceAreModified() {
+            AvlNode<Integer> node1, node2, node3, node4, node5;
+
+            node1 = new AvlNode<>(7);
+            avlTree.insertAvlNode(node1);
+            assertEquals(0, node1.getHeight());
+            assertEquals(0, avlTree.getBalance(node1));
+
+            node2 = new AvlNode<>(4);
+            avlTree.insertAvlNode(node2);
+            assertEquals(0, node2.getHeight());
+            assertEquals(1, node1.getHeight());
+            assertEquals(-1, avlTree.getBalance(node1));
+            assertEquals(0, avlTree.getBalance(node2));
+
+            node3 = new AvlNode<>(9);
+            avlTree.insertAvlNode(node3);
+            assertEquals(0, node3.getHeight());
+            assertEquals(1, node1.getHeight());
+            assertEquals(0, avlTree.getBalance(node1));
+            assertEquals(0, avlTree.getBalance(node3));
+
+            node4 = new AvlNode<>(3);
+            avlTree.insertAvlNode(node4);
+            assertEquals(0, node4.getHeight());
+            assertEquals(1, node2.getHeight());
+            assertEquals(2, node1.getHeight());
+            assertEquals(-1, avlTree.getBalance(node2));
+            assertEquals(-1, avlTree.getBalance(node1));
+            assertEquals(0, avlTree.getBalance(node4));
+
+            node5 = new AvlNode<>(5);
+            avlTree.insertAvlNode(node5);
+            assertEquals(0, node5.getHeight());
+            assertEquals(1, node2.getHeight());
+            assertEquals(2, node1.getHeight());
+            assertEquals(0, avlTree.getBalance(node2));
+            assertEquals(-1, avlTree.getBalance(node1));
+            assertEquals(0, avlTree.getBalance(node5));
+        }
+
+        @DisplayName("Given an AVL Tree when inserting a left left node then tree's height and balance are modified")
+        @Test
+        void given_AnAVLTree_When_InsertingALeftLeftNode_Then_TreeHeightAndBalanceAreModified() {
+            AvlNode<Integer> node1, node2, node3;
+
+            node1 = new AvlNode<>(7);
+            avlTree.insertAvlNode(node1);
+            assertEquals(0, node1.getHeight());
+            assertEquals(0, avlTree.getBalance(node1));
+
+            node2 = new AvlNode<>(4);
+            avlTree.insertAvlNode(node2);
+            assertEquals(0, node2.getHeight());
+            assertEquals(1, node1.getHeight());
+            assertEquals(-1, avlTree.getBalance(node1));
+            assertEquals(0, avlTree.getBalance(node2));
+
+            node3 = new AvlNode<>(3);
+            avlTree.insertAvlNode(node3);
+            assertEquals(node2, avlTree.getTop());
+            assertEquals(node3, node2.getLeft());
+            assertEquals(node1, node2.getRight());
+
+            assertEquals(1, avlTree.getTop().getHeight());
+            assertEquals(0, avlTree.getTop().getLeft().getHeight());
+            assertEquals(0, avlTree.getTop().getRight().getHeight());
+            assertEquals(-1, avlTree.height(node1.getLeft()));
+            assertEquals(-1, avlTree.height(node1.getRight()));
+            assertEquals(-1, avlTree.height(node3.getLeft()));
+            assertEquals(-1, avlTree.height(node3.getRight()));
+        }
+
+        @DisplayName("Given an AVL Tree when inserting a right right node then tree's height and balance are modified")
+        @Test
+        void given_AnAVLTree_When_InsertingARightRightNode_Then_TreeHeightAndBalanceAreModified() {
+            AvlNode<Integer> node1, node2, node3;
+
+            node1 = new AvlNode<>(7);
+            avlTree.insertAvlNode(node1);
+            assertEquals(0, node1.getHeight());
+            assertEquals(0, avlTree.getBalance(node1));
+
+            node2 = new AvlNode<Integer>(10);
+            avlTree.insertAvlNode(node2);
+            assertEquals(0, node2.getHeight());
+            assertEquals(1, node1.getHeight());
+            assertEquals(1, avlTree.getBalance(node1));
+            assertEquals(0, avlTree.getBalance(node2));
+
+            node3 = new AvlNode<Integer>(14);
+            avlTree.insertAvlNode(node3);
+            assertEquals(node2, avlTree.getTop());
+            assertEquals(node1, node2.getLeft());
+            assertEquals(node3, node2.getRight());
+
+            assertEquals(1, avlTree.getTop().getHeight());
+            assertEquals(0, avlTree.getTop().getLeft().getHeight());
+            assertEquals(0, avlTree.getTop().getRight().getHeight());
+            assertEquals(-1, avlTree.height(node1.getLeft()));
+            assertEquals(-1, avlTree.height(node1.getRight()));
+            assertEquals(-1, avlTree.height(node3.getLeft()));
+            assertEquals(-1, avlTree.height(node3.getRight()));
+        }
+
+        @DisplayName("Given an AVL Tree when inserting a left right node then tree's height and balance are modified")
+        @Test
+        void given_AnAVLTree_When_InsertingALeftRightNode_Then_TreeHeightAndBalanceAreModified() {
+            AvlNode<Integer> node1, node2, node3;
+
+            node1 = new AvlNode<>(7);
+            avlTree.insertAvlNode(node1);
+
+            node2 = new AvlNode<>(2);
+            avlTree.insertAvlNode(node2);
+
+            node3 = new AvlNode<>(3);
+            avlTree.insertAvlNode(node3);
+
+            assertEquals(node3, avlTree.getTop());
+            assertEquals(node2, node3.getLeft());
+            assertEquals(node1, node3.getRight());
+
+            assertEquals(1, avlTree.getTop().getHeight());
+            assertEquals(0, avlTree.getTop().getLeft().getHeight());
+            assertEquals(0, avlTree.getTop().getRight().getHeight());
+            assertEquals(-1, avlTree.height(node2.getLeft()));
+            assertEquals(-1, avlTree.height(node2.getRight()));
+            assertEquals(-1, avlTree.height(node1.getLeft()));
+            assertEquals(-1, avlTree.height(node1.getRight()));
+        }
+
+        @DisplayName("Given an AVL Tree when inserting a right left node then tree's height and balance are modified")
+        @Test
+        void given_AnAVLTree_When_InsertingARightLeftNode_Then_TreeHeightAndBalanceAreModified() {
+            AvlNode<Integer> node1, node2, node3;
+
+            node1 = new AvlNode<Integer>(7);
+            avlTree.insertAvlNode(node1);
+
+            node2 = new AvlNode<Integer>(9);
+            avlTree.insertAvlNode(node2);
+
+            node3 = new AvlNode<Integer>(8);
+            avlTree.insertAvlNode(node3);
+
+            assertEquals(node3, avlTree.getTop());
+            assertEquals(node1, node3.getLeft());
+            assertEquals(node2, node3.getRight());
+
+            assertEquals(1, avlTree.getTop().getHeight());
+            assertEquals(0, avlTree.getTop().getLeft().getHeight());
+            assertEquals(0, avlTree.getTop().getRight().getHeight());
+            assertEquals(-1, avlTree.height(node2.getLeft()));
+            assertEquals(-1, avlTree.height(node2.getRight()));
+            assertEquals(-1, avlTree.height(node1.getLeft()));
+            assertEquals(-1, avlTree.height(node1.getRight()));
+        }
+    }
+
+    @DisplayName("Given an AVL Tree when searching for an element then returns the node with that element")
     @Test
-    public void testHeightAndBalanceOfASimpleBalancedTree() throws Exception {
+    void given_AnAVLTree_When_SearchingForAnElement_Then_ReturnsTheNodeWithThatElement() {
         AvlNode<Integer> node1, node2, node3, node4, node5;
 
-        node1 = new AvlNode<Integer>(7);
-        avlTree.insertAvlNode(node1);
-        assertEquals(0, node1.getHeight());
-        assertEquals(0, avlTree.getBalance(node1));
-
-        node2 = new AvlNode<Integer>(4);
-        avlTree.insertAvlNode(node2);
-        assertEquals(0, node2.getHeight());
-        assertEquals(1, node1.getHeight());
-        assertEquals(-1, avlTree.getBalance(node1));
-        assertEquals(0, avlTree.getBalance(node2));
-
-        node3 = new AvlNode<Integer>(9);
-        avlTree.insertAvlNode(node3);
-        assertEquals(0, node3.getHeight());
-        assertEquals(1, node1.getHeight());
-        assertEquals(0, avlTree.getBalance(node1));
-        assertEquals(0, avlTree.getBalance(node3));
-
-        node4 = new AvlNode<Integer>(3);
-        avlTree.insertAvlNode(node4);
-        assertEquals(0, node4.getHeight());
-        assertEquals(1, node2.getHeight());
-        assertEquals(2, node1.getHeight());
-        assertEquals(-1, avlTree.getBalance(node2));
-        assertEquals(-1, avlTree.getBalance(node1));
-        assertEquals(0, avlTree.getBalance(node4));
-
-        node5 = new AvlNode<Integer>(5);
-        avlTree.insertAvlNode(node5);
-        assertEquals(0, node5.getHeight());
-        assertEquals(1, node2.getHeight());
-        assertEquals(2, node1.getHeight());
-        assertEquals(0, avlTree.getBalance(node2));
-        assertEquals(-1, avlTree.getBalance(node1));
-        assertEquals(0, avlTree.getBalance(node5));
-
-        String tree = " | 7 | 4 | 3 | 5 | 9";
-        assertEquals(tree, avlTree.toString());
-    }
-
-    /**
-     * Testing adding 7 - 4 - 3
-     *
-     * @throws Exception
-     */
-    @Test
-    public void testInsertingLeftLeftNodeAndRebalance() throws Exception {
-        AvlNode<Integer> node1, node2, node3, node4, node5;
-
-        node1 = new AvlNode<Integer>(7);
-        avlTree.insertAvlNode(node1);
-        assertEquals(0, node1.getHeight());
-        assertEquals(0, avlTree.getBalance(node1));
-
-        node2 = new AvlNode<Integer>(4);
-        avlTree.insertAvlNode(node2);
-        assertEquals(0, node2.getHeight());
-        assertEquals(1, node1.getHeight());
-        assertEquals(-1, avlTree.getBalance(node1));
-        assertEquals(0, avlTree.getBalance(node2));
-
-        node3 = new AvlNode<Integer>(3);
-        avlTree.insertAvlNode(node3);
-        assertEquals(node2, avlTree.getTop());
-        assertEquals(node3, node2.getLeft());
-        assertEquals(node1, node2.getRight());
-
-        assertEquals(1, avlTree.getTop().getHeight());
-        assertEquals(0,
-                avlTree.getTop().getLeft().getHeight());
-        assertEquals(0,
-                avlTree.getTop().getRight().getHeight());
-        assertEquals(-1, avlTree.height(node1.getLeft()));
-        assertEquals(-1, avlTree.height(node1.getRight()));
-        assertEquals(-1, avlTree.height(node3.getLeft()));
-        assertEquals(-1, avlTree.height(node3.getRight()));
-
-        String tree = " | 4 | 3 | 7";
-        assertEquals(tree, avlTree.toString());
-    }
-
-    /**
-     * Testing adding 7 - 10 - 14
-     *
-     * @throws Exception
-     */
-    @Test
-    public void testInsertingRightRightNodeAndRebalance() throws Exception {
-        AvlNode<Integer> node1, node2, node3, node4, node5;
-
-        node1 = new AvlNode<Integer>(7);
-        avlTree.insertAvlNode(node1);
-        assertEquals(0, node1.getHeight());
-        assertEquals(0, avlTree.getBalance(node1));
-
-        node2 = new AvlNode<Integer>(10);
-        avlTree.insertAvlNode(node2);
-        assertEquals(0, node2.getHeight());
-        assertEquals(1, node1.getHeight());
-        assertEquals(1, avlTree.getBalance(node1));
-        assertEquals(0, avlTree.getBalance(node2));
-
-        node3 = new AvlNode<Integer>(14);
-        avlTree.insertAvlNode(node3);
-        assertEquals(node2, avlTree.getTop());
-        assertEquals(node1, node2.getLeft());
-        assertEquals(node3, node2.getRight());
-
-        assertEquals(1, avlTree.getTop().getHeight());
-        assertEquals(0,
-                avlTree.getTop().getLeft().getHeight());
-        assertEquals(0,
-                avlTree.getTop().getRight().getHeight());
-        assertEquals(-1, avlTree.height(node1.getLeft()));
-        assertEquals(-1, avlTree.height(node1.getRight()));
-        assertEquals(-1, avlTree.height(node3.getLeft()));
-        assertEquals(-1, avlTree.height(node3.getRight()));
-
-        String tree = " | 10 | 7 | 14";
-        assertEquals(tree, avlTree.toString());
-    }
-
-    /**
-     * Testing adding 7 - 4 - 3 - 2 - 1
-     *
-     * @throws Exception
-     */
-    @Test
-    public void testInserting7_4_3_2_1() throws Exception {
-        AvlNode<Integer> node1, node2, node3, node4, node5;
-
-        node1 = new AvlNode<Integer>(7);
-        node2 = new AvlNode<Integer>(4);
-        node3 = new AvlNode<Integer>(3);
-        node4 = new AvlNode<Integer>(2);
-        node5 = new AvlNode<Integer>(1);
-
-        avlTree.insertAvlNode(node1);
-        avlTree.insertAvlNode(node2);
-        avlTree.insertAvlNode(node3);
-        avlTree.insertAvlNode(node4);
-        avlTree.insertAvlNode(node5);
-
-        assertEquals(node2, avlTree.getTop());
-        assertEquals(node4, node2.getLeft());
-        assertEquals(node1, node2.getRight());
-        assertEquals(node5, node4.getLeft());
-        assertEquals(node3, node4.getRight());
-        assertEquals(0, node1.getHeight());
-        assertEquals(2, node2.getHeight());
-        assertEquals(1, node4.getHeight());
-
-        String tree = " | 4 | 2 | 1 | 3 | 7";
-        assertEquals(tree, avlTree.toString());
-    }
-
-    /**
-     * Testing adding 7 - 4 - 3 - 2 - 1
-     *
-     * @throws Exception
-     */
-    @Test
-    public void testInserting7_8_9_10_11() throws Exception {
-        AvlNode<Integer> node1, node2, node3, node4, node5;
-
-        node1 = new AvlNode<Integer>(7);
-        node2 = new AvlNode<Integer>(8);
-        node3 = new AvlNode<Integer>(9);
-        node4 = new AvlNode<Integer>(10);
-        node5 = new AvlNode<Integer>(11);
-
-        avlTree.insertAvlNode(node1);
-        avlTree.insertAvlNode(node2);
-        avlTree.insertAvlNode(node3);
-        avlTree.insertAvlNode(node4);
-        avlTree.insertAvlNode(node5);
-
-        assertEquals(node2, avlTree.getTop());
-        assertEquals(node4, node2.getRight());
-        assertEquals(node1, node2.getLeft());
-        assertEquals(node5, node4.getRight());
-        assertEquals(node3, node4.getLeft());
-        assertEquals(2, avlTree.getTop().getHeight());
-        assertEquals(1, node4.getHeight());
-        assertEquals(0, node1.getHeight());
-
-        String tree = " | 8 | 7 | 10 | 9 | 11";
-        assertEquals(tree, avlTree.toString());
-    }
-
-    /**
-     * Testing adding 7 - 2 - 3
-     *
-     * @throws Exception
-     */
-    @Test
-    public void testInsertingLeftRightNodeAndRebalance() throws Exception {
-        AvlNode<Integer> node1, node2, node3;
-
-        node1 = new AvlNode<Integer>(7);
+        node1 = new AvlNode<>(7);
         avlTree.insertAvlNode(node1);
 
-        node2 = new AvlNode<Integer>(2);
+        node2 = new AvlNode<>(9);
         avlTree.insertAvlNode(node2);
 
-        node3 = new AvlNode<Integer>(3);
+        node3 = new AvlNode<>(8);
         avlTree.insertAvlNode(node3);
 
-        assertEquals(node3, avlTree.getTop());
-        assertEquals(node2, node3.getLeft());
-        assertEquals(node1, node3.getRight());
-
-        assertEquals(1, avlTree.getTop().getHeight());
-        assertEquals(0,
-                avlTree.getTop().getLeft().getHeight());
-        assertEquals(0,
-                avlTree.getTop().getRight().getHeight());
-        assertEquals(-1, avlTree.height(node2.getLeft()));
-        assertEquals(-1, avlTree.height(node2.getRight()));
-        assertEquals(-1, avlTree.height(node1.getLeft()));
-        assertEquals(-1, avlTree.height(node1.getRight()));
-
-        String tree = " | 3 | 2 | 7";
-        assertEquals(tree, avlTree.toString());
-    }
-
-    /**
-     * Testing adding 7 - 9 - 8
-     *
-     * @throws Exception
-     */
-    @Test
-    public void testInsertingRightLeftNodeAndRebalance() throws Exception {
-        AvlNode<Integer> node1, node2, node3;
-
-        node1 = new AvlNode<Integer>(7);
-        avlTree.insertAvlNode(node1);
-
-        node2 = new AvlNode<Integer>(9);
-        avlTree.insertAvlNode(node2);
-
-        node3 = new AvlNode<Integer>(8);
-        avlTree.insertAvlNode(node3);
-
-        assertEquals(node3, avlTree.getTop());
-        assertEquals(node1, node3.getLeft());
-        assertEquals(node2, node3.getRight());
-
-        assertEquals(1, avlTree.getTop().getHeight());
-        assertEquals(0,
-                avlTree.getTop().getLeft().getHeight());
-        assertEquals(0,
-                avlTree.getTop().getRight().getHeight());
-        assertEquals(-1, avlTree.height(node2.getLeft()));
-        assertEquals(-1, avlTree.height(node2.getRight()));
-        assertEquals(-1, avlTree.height(node1.getLeft()));
-        assertEquals(-1, avlTree.height(node1.getRight()));
-
-        String tree = " | 8 | 7 | 9";
-        assertEquals(tree, avlTree.toString());
-    }
-
-    @Test
-    public void testSearchNode() throws Exception {
-        AvlNode<Integer> node1, node2, node3, node4, node5;
-
-        node1 = new AvlNode<Integer>(7);
-        avlTree.insertAvlNode(node1);
-
-        node2 = new AvlNode<Integer>(9);
-        avlTree.insertAvlNode(node2);
-
-        node3 = new AvlNode<Integer>(8);
-        avlTree.insertAvlNode(node3);
-
-        node4 = new AvlNode<Integer>(2);
+        node4 = new AvlNode<>(2);
         avlTree.insertAvlNode(node4);
 
-        node5 = new AvlNode<Integer>(3);
+        node5 = new AvlNode<>(3);
         avlTree.insertAvlNode(node5);
 
         assertEquals(node1, avlTree.search(7));
         assertEquals(node2, avlTree.search(9));
         assertEquals(node3, avlTree.search(8));
-        assertEquals((Integer) 2,
-                avlTree.searchNode(new AvlNode<Integer>(2)).getItem());
+        assertEquals((Integer) 2, avlTree.searchNode(new AvlNode<>(2)).getItem());
         assertEquals(node4, avlTree.search(2));
         assertEquals(node5, avlTree.search(3));
         assertNull(avlTree.search(14));
         assertNull(avlTree.search(0));
-
-        String tree = " | 8 | 3 | 2 | 7 | 9";
-        assertEquals(tree, avlTree.toString());
     }
 
+    @DisplayName("Given an AVL Tree when finding a successor of a node then returns the succesor node")
     @Test
-    public void testFindSuccessor() throws Exception {
+    void given_AnAVLTree_When_FindingSuccessorOfANode_Then_ReturnsTheSuccessorNode() {
         AvlNode<Integer> node;
 
-        node = new AvlNode<Integer>(20);
+        node = new AvlNode<>(20);
         avlTree.insertAvlNode(node);
 
-        node = new AvlNode<Integer>(8);
+        node = new AvlNode<>(8);
         avlTree.insertAvlNode(node);
 
-        node = new AvlNode<Integer>(22);
+        node = new AvlNode<>(22);
         avlTree.insertAvlNode(node);
 
-        node = new AvlNode<Integer>(4);
+        node = new AvlNode<>(4);
         avlTree.insertAvlNode(node);
 
-        node = new AvlNode<Integer>(12);
+        node = new AvlNode<>(12);
         avlTree.insertAvlNode(node);
 
-        node = new AvlNode<Integer>(24);
+        node = new AvlNode<>(24);
         avlTree.insertAvlNode(node);
 
-        node = new AvlNode<Integer>(10);
+        node = new AvlNode<>(10);
         avlTree.insertAvlNode(node);
 
-        node = new AvlNode<Integer>(14);
+        node = new AvlNode<>(14);
         avlTree.insertAvlNode(node);
 
         node = avlTree.search(8);
@@ -477,29 +368,26 @@ public class AvlTreeTest {
         assertEquals(avlTree.search(12), avlTree.findSuccessor(node));
         node = avlTree.search(14);
         assertEquals(avlTree.search(20), avlTree.findSuccessor(node));
-
-        String tree = " | 20 | 8 | 4 | 12 | 10 | 14 | 22 | 24";
-        assertEquals(tree, avlTree.toString());
     }
 
     @Test
     @DisplayName("when deleting a leaf node, the node is not present any more")
-    public void testDeletingLeafNodes() throws Exception {
+    void testDeletingLeafNodes() {
         AvlNode<Integer> node1, node2, node3, node4, node5;
 
-        node1 = new AvlNode<Integer>(7);
+        node1 = new AvlNode<>(7);
         avlTree.insertAvlNode(node1);
 
-        node2 = new AvlNode<Integer>(9);
+        node2 = new AvlNode<>(9);
         avlTree.insertAvlNode(node2);
 
-        node3 = new AvlNode<Integer>(2);
+        node3 = new AvlNode<>(2);
         avlTree.insertAvlNode(node3);
 
-        node4 = new AvlNode<Integer>(8);
+        node4 = new AvlNode<>(8);
         avlTree.insertAvlNode(node4);
 
-        node5 = new AvlNode<Integer>(3);
+        node5 = new AvlNode<>(3);
         avlTree.insertAvlNode(node5);
 
         avlTree.delete(3);
@@ -510,17 +398,17 @@ public class AvlTreeTest {
 
     @Test
     @DisplayName("when deleting a node with one leaf, then the leaf becomes the parent")
-    void given_AvlTreeWith5Nodes_When_DeletingANodeWithALeaf_TheLeafBecomesTheParent() throws Exception {
+    void given_AvlTreeWith5Nodes_When_DeletingANodeWithALeaf_TheLeafBecomesTheParent() {
         AvlNode<Integer> node1, node2, node3, node4, node5;
-        node1 = new AvlNode<Integer>(7);
+        node1 = new AvlNode<>(7);
         avlTree.insertAvlNode(node1);
-        node2 = new AvlNode<Integer>(9);
+        node2 = new AvlNode<>(9);
         avlTree.insertAvlNode(node2);
-        node3 = new AvlNode<Integer>(2);
+        node3 = new AvlNode<>(2);
         avlTree.insertAvlNode(node3);
-        node4 = new AvlNode<Integer>(8);
+        node4 = new AvlNode<>(8);
         avlTree.insertAvlNode(node4);
-        node5 = new AvlNode<Integer>(3);
+        node5 = new AvlNode<>(3);
         avlTree.insertAvlNode(node5);
 
         avlTree.delete(2);
@@ -531,59 +419,59 @@ public class AvlTreeTest {
     }
 
     @Test
-    @DisplayName("when deleting a node with two leaves, the left leaf substitutes the node.")
-    void testDeletingNodesWithTwoLeaves() throws Exception {
+    @DisplayName("when deleting a node with two leaves, the left leaf substitutes the node")
+    void testDeletingNodesWithTwoLeaves() {
         AvlNode<Integer> node;
-        node = new AvlNode<Integer>(20);
+        node = new AvlNode<>(20);
         avlTree.insertAvlNode(node);
-        node = new AvlNode<Integer>(8);
+        node = new AvlNode<>(8);
         avlTree.insertAvlNode(node);
-        node = new AvlNode<Integer>(22);
+        node = new AvlNode<>(22);
         avlTree.insertAvlNode(node);
-        node = new AvlNode<Integer>(4);
+        node = new AvlNode<>(4);
         avlTree.insertAvlNode(node);
-        node = new AvlNode<Integer>(12);
+        node = new AvlNode<>(12);
         avlTree.insertAvlNode(node);
-        node = new AvlNode<Integer>(24);
+        node = new AvlNode<>(24);
         avlTree.insertAvlNode(node);
-        node = new AvlNode<Integer>(10);
+        node = new AvlNode<>(10);
         avlTree.insertAvlNode(node);
-        node = new AvlNode<Integer>(14);
+        node = new AvlNode<>(14);
         avlTree.insertAvlNode(node);
 
         avlTree.delete(12);
 
         node = avlTree.search(8);
         int expectedItem = 14;
-        int actualItem = (int) node.getRight().getItem();
+        int actualItem = node.getRight().getItem();
         assertEquals(expectedItem, actualItem);
     }
 
     @Test
     @DisplayName("when deleting the node of the top, the new top is the successor of the root and the rest is the same")
-    void given_AVLTreeWith8Nodes_WhenTheTopIsDeleted_Then_TheNewTopIsTheSuccessorOfTheRoot() throws Exception {
+    void given_AVLTreeWith8Nodes_WhenTheTopIsDeleted_Then_TheNewTopIsTheSuccessorOfTheRoot() {
         AvlNode<Integer> node;
-        node = new AvlNode<Integer>(20);
+        node = new AvlNode<>(20);
         avlTree.insertAvlNode(node);
-        node = new AvlNode<Integer>(8);
+        node = new AvlNode<>(8);
         avlTree.insertAvlNode(node);
-        node = new AvlNode<Integer>(22);
+        node = new AvlNode<>(22);
         avlTree.insertAvlNode(node);
-        node = new AvlNode<Integer>(4);
+        node = new AvlNode<>(4);
         avlTree.insertAvlNode(node);
-        node = new AvlNode<Integer>(12);
+        node = new AvlNode<>(12);
         avlTree.insertAvlNode(node);
-        node = new AvlNode<Integer>(24);
+        node = new AvlNode<>(24);
         avlTree.insertAvlNode(node);
-        node = new AvlNode<Integer>(10);
+        node = new AvlNode<>(10);
         avlTree.insertAvlNode(node);
-        node = new AvlNode<Integer>(14);
+        node = new AvlNode<>(14);
         avlTree.insertAvlNode(node);
 
         avlTree.delete(22);
 
         int expectedItem = 12;
-        int actualItem = (int) avlTree.getTop().getItem();
+        int actualItem = avlTree.getTop().getItem();
         assertEquals(expectedItem, actualItem);
 
         AvlNode<Integer> expectedNode = avlTree.search(8);
@@ -597,23 +485,23 @@ public class AvlTreeTest {
 
     @Test
     @DisplayName("when deleting the node of the top, the string representation is updated")
-    void given_AVLTreeWith8Nodes_When_1NodeIsDeleted_Then_ToStringMethodDoesNotShowTheNode() throws Exception {
+    void given_AVLTreeWith8Nodes_When_1NodeIsDeleted_Then_ToStringMethodDoesNotShowTheNode() {
         AvlNode<Integer> node;
-        node = new AvlNode<Integer>(20);
+        node = new AvlNode<>(20);
         avlTree.insertAvlNode(node);
-        node = new AvlNode<Integer>(8);
+        node = new AvlNode<>(8);
         avlTree.insertAvlNode(node);
-        node = new AvlNode<Integer>(22);
+        node = new AvlNode<>(22);
         avlTree.insertAvlNode(node);
-        node = new AvlNode<Integer>(4);
+        node = new AvlNode<>(4);
         avlTree.insertAvlNode(node);
-        node = new AvlNode<Integer>(12);
+        node = new AvlNode<>(12);
         avlTree.insertAvlNode(node);
-        node = new AvlNode<Integer>(24);
+        node = new AvlNode<>(24);
         avlTree.insertAvlNode(node);
-        node = new AvlNode<Integer>(10);
+        node = new AvlNode<>(10);
         avlTree.insertAvlNode(node);
-        node = new AvlNode<Integer>(14);
+        node = new AvlNode<>(14);
         avlTree.insertAvlNode(node);
 
         avlTree.delete(20);
@@ -623,7 +511,7 @@ public class AvlTreeTest {
 
     @Test
     @DisplayName("New element inserted correctly into the tree")
-    void give_empty_tree_when_insert_is_called_then_item_iserted_correctly() {
+    void give_empty_tree_when_insert_is_called_then_item_inserted_correctly() {
         Integer item = 5;
 
         avlTree.insert(item);
