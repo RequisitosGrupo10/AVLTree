@@ -64,8 +64,20 @@ public class AvlNodeTest {
 
     @Test
     @DisplayName("Left node is null")
-    public void Given_AnEmptyNode_When_GettingLeftNode_Then_ReturnsFalse() {
+    public void Given_AnEmptyNode_When_GettingLeftNode_Then_ReturnsNull() {
       Assertions.assertNull(emptyNode.getLeft());
+    }
+
+    @Test
+    @DisplayName("Parent node is null")
+    public void Given_AnEmptyNode_When_GettingParentNode_Then_ReturnsNull() {
+      Assertions.assertNull(emptyNode.getParent());
+    }
+
+    @Test
+    @DisplayName("Closest node is null")
+    public void Given_AnEmptyNode_When_GettingClosestNode_Then_ReturnsNull() {
+      Assertions.assertNull(emptyNode.getClosestNode());
     }
 
     @Test
@@ -177,11 +189,85 @@ public class AvlNodeTest {
   @Nested
   class AVLNodeGettersAndSettersTest {
     // TODO - New Node from zero and check setters and getters
-    
-    // UpdateHeight
-    // GetHeight
-    // SetHeight
-    // SetItem
-    // SetParent
+
+    @Test
+    @DisplayName("On an empty node, updating height sets height to 0")
+    void Given_AnEmptyNode_When_UpdatingHeight_Then_HeightDoesNotChangeAndEqualsZero(){
+      AvlNode<Object> avlNode = new AvlNode<>(6);
+      avlNode.updateHeight();
+
+      int expectedValue = 0;
+      int actualValue = avlNode.getHeight();
+
+      Assertions.assertEquals(expectedValue, actualValue);
+    }
+
+    @Test
+    @DisplayName("On an empty node, when setting a new height, getting the height returns the new value")
+    void Given_AnEmptyNode_When_SettingANewHeight_Then_UpdatesItHeight(){
+      int newHeight = 5;
+      AvlNode<Object> avlNode = new AvlNode<>(6);
+      avlNode.setHeight(newHeight);
+
+      int expectedValue = newHeight;
+      int actualValue = avlNode.getHeight();
+
+      Assertions.assertEquals(expectedValue, actualValue);
+    }
+
+    @Test
+    @DisplayName("On an empty node, when setting a new item, getting the item returns the new value")
+    void Given_AnEmptyNode_When_SettingANewItem_Then_UpdatesItsItem(){
+      Integer newItem = 5;
+      AvlNode<Integer> avlNode = new AvlNode<>(6);
+      avlNode.setItem(newItem);
+
+      int expectedValue = newItem;
+      int actualValue = avlNode.getItem();
+
+      Assertions.assertEquals(expectedValue, actualValue);
+    }
+
+    @Test
+    @DisplayName("On an empty node, when setting the closes node, getting the closest node, returns the new node")
+    void Given_AnEmptyNode_When_SettingANewClosestNode_Then_UpdatesClosestNode(){
+      AvlNode<Integer> avlNode = new AvlNode<>(6);
+      AvlNode<Integer> newClosestNode = new AvlNode<>(6);
+
+      avlNode.setClosestNode(newClosestNode);
+
+      AvlNode<Integer> expectedValue = newClosestNode;
+      AvlNode<Integer> actualValue = avlNode.getClosestNode();
+
+      Assertions.assertEquals(expectedValue, actualValue);
+    }
+
+    @Test
+    @DisplayName("On an node with two children, when updating the height, then height is set to the maximum size of their children plus one")
+    void Given_AnNodeWithTwoChildren_When_UpdatingTheHeight_Then_ReturnsTheMaximumSizeOfTheChildrenPlusOne(){
+      AvlNode<Integer> grandfatherNode = new AvlNode<>(5);
+      AvlNode<Integer> leftfatherNode = new AvlNode<>(6);
+      AvlNode<Integer> rightfatherNode = new AvlNode<>(7);
+      AvlNode<Integer> grandchildleftNode = new AvlNode<>(8);
+      AvlNode<Integer> grandchildrightNode = new AvlNode<>(9);
+
+      grandfatherNode.setLeft(leftfatherNode);
+      grandfatherNode.setRight(rightfatherNode);
+      leftfatherNode.setParent(grandfatherNode);
+      rightfatherNode.setParent(grandfatherNode);
+
+      leftfatherNode.setLeft(grandchildleftNode);
+      leftfatherNode.setRight(grandchildrightNode);
+      grandchildrightNode.setParent(leftfatherNode);
+      grandchildleftNode.setParent(leftfatherNode);
+
+      leftfatherNode.updateHeight();
+      grandfatherNode.updateHeight();
+
+      int expectedValue = 2;
+      int actualValue = grandfatherNode.getHeight();
+
+      Assertions.assertEquals(expectedValue, actualValue);
+    }
   }
 }
