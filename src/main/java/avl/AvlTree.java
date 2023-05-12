@@ -31,20 +31,20 @@ import java.util.Comparator;
 public class AvlTree<T> {
 
   AvlNode<T> top;
-  Comparator comparator;
+  Comparator<T> comparator;
 
   /**
    * Constructor
    *
    * @param comparator
    */
-  public AvlTree(Comparator comparator) {
+  public AvlTree(Comparator<T> comparator) {
     top = null;
     this.comparator = comparator;
   }
 
   public void insert(T item) {
-    AvlNode<T> node = new AvlNode<T>(item);
+    AvlNode<T> node = new AvlNode<>(item);
     insertAvlNode(node);
   }
 
@@ -74,35 +74,41 @@ public class AvlTree<T> {
 
   public AvlNode<T> searchNode(AvlNode<T> targetNode) {
     AvlNode<T> currentNode;
-    AvlNode<T> result = null;
+    AvlNode<T> result;
 
     currentNode = top;
     if (top == null) {
       result = null;
     } else {
-      boolean searchFinished;
-      int comparison;
-      searchFinished = false;
-      while (!searchFinished) {
-        comparison = compareNodes(targetNode, currentNode);
-        if (comparison < 0) {
-          if (currentNode.getLeft() != null) {
-            currentNode = currentNode.getLeft();
-          } else {
-            searchFinished = true;
-            result = null;
-          }
-        } else if (comparison > 0) {
-          if (currentNode.getRight() != null) {
-            currentNode = currentNode.getRight();
-          } else {
-            searchFinished = true;
-            result = null;
-          }
+      result = getAvlNode(targetNode, currentNode);
+    }
+    return result;
+  }
+
+  private AvlNode<T> getAvlNode(AvlNode<T> targetNode, AvlNode<T> currentNode) {
+    AvlNode<T> result;
+    boolean searchFinished;
+    int comparison;
+
+    searchFinished = false;
+    result = null;
+    while (!searchFinished) {
+      comparison = compareNodes(targetNode, currentNode);
+      if (comparison < 0) {
+        if (currentNode.getLeft() != null) {
+          currentNode = currentNode.getLeft();
         } else {
           searchFinished = true;
-          result = currentNode;
         }
+      } else if (comparison > 0) {
+        if (currentNode.getRight() != null) {
+          currentNode = currentNode.getRight();
+        } else {
+          searchFinished = true;
+        }
+      } else {
+        searchFinished = true;
+        result = currentNode;
       }
     }
     return result;
