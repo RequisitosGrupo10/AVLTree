@@ -119,11 +119,25 @@ public class AvlNodeTest {
     }
 
     @Test
-    @DisplayName("Has only right child")
-    public void Given_ANodeWithOnlyARightChild_When_AskingIfItOnlyHasOnlyRightNode_Then_ReturnsFalse() {
+    @DisplayName("Has not only right child")
+    public void Given_ANodeWithOnlyALeftChild_When_AskingIfItOnlyHasOnlyRightNode_Then_ReturnsFalse() {
       Assertions.assertFalse(nodeWithLeftChild.hasOnlyARightChild());
     }
 
+    @Test
+    @DisplayName("Is not a leaf")
+    public void Given_ANodeWithOnlyALeftChild_When_AskingIfItIsALeaf_Then_ReturnsFalse() {
+      Assertions.assertFalse(nodeWithLeftChild.isLeaf());
+    }
+
+    @Test
+    @DisplayName("Height is equal to 1")
+    public void Given_ANodeWithOnlyALeftChild_When_AskingItsHeight_Then_ReturnsOne() {
+      int expectedValue = 1;
+      int actualValue = nodeWithLeftChild.getHeight();
+
+      Assertions.assertEquals(expectedValue, actualValue);
+    }
   }
 
   @Nested
@@ -149,7 +163,7 @@ public class AvlNodeTest {
     }
 
     @Test
-    @DisplayName("Has only left child")
+    @DisplayName("Has not only left child")
     public void Given_ANodeWithOnlyARightChild_When_AskingIfItOnlyHasOnlyLeftNode_Then_ReturnsFalse() {
       Assertions.assertFalse(nodeWithRightChild.hasOnlyALeftChild());
     }
@@ -158,6 +172,21 @@ public class AvlNodeTest {
     @DisplayName("Has only right child")
     public void Given_ANodeWithOnlyARightChild_When_AskingIfItOnlyHasOnlyLeftNode_Then_ReturnsTrue() {
       Assertions.assertTrue(nodeWithRightChild.hasOnlyARightChild());
+    }
+
+    @Test
+    @DisplayName("Is not a leaf")
+    public void Given_ANodeWithOnlyARightChild_When_AskingIfItIsALeaf_Then_ReturnsFalse() {
+      Assertions.assertFalse(nodeWithRightChild.isLeaf());
+    }
+
+    @Test
+    @DisplayName("Height is equal to 1")
+    public void Given_ANodeWithOnlyARightChild_When_AskingItsHeight_Then_ReturnsOne() {
+      int expectedValue = 1;
+      int actualValue = nodeWithRightChild.getHeight();
+
+      Assertions.assertEquals(expectedValue, actualValue);
     }
   }
 
@@ -180,16 +209,31 @@ public class AvlNodeTest {
       nodeWithTwoChildren.updateHeight();
     }
 
-
     @AfterAll
     public static void tearDown() throws Exception {
       nodeWithTwoChildren = null;
     }
+
+    @Test
+    @DisplayName("Is not a leaf")
+    public void Given_ANodeWithTwoChildren_When_AskingIfItIsALeaf_Then_ReturnsFalse() {
+      Assertions.assertFalse(nodeWithTwoChildren.isLeaf());
+    }
+
+    @Test
+    @DisplayName("Has not only left child")
+    public void Given_ANodeWithTwoChildren_When_AskingIfItOnlyHasOnlyLeftNode_Then_ReturnsFalse() {
+      Assertions.assertFalse(nodeWithTwoChildren.hasOnlyALeftChild());
+    }
+
+    @Test
+    @DisplayName("Has not only right child")
+    public void Given_ANodeWithTwoChildren_When_AskingIfItOnlyHasOnlyRightNode_Then_ReturnsFalse() {
+      Assertions.assertFalse(nodeWithTwoChildren.hasOnlyARightChild());
+    }
   }
   @Nested
   class AVLNodeGettersAndSettersTest {
-    // TODO - New Node from zero and check setters and getters
-
     @Test
     @DisplayName("On an empty node, updating height sets height to 0")
     void Given_AnEmptyNode_When_UpdatingHeight_Then_HeightDoesNotChangeAndEqualsZero(){
@@ -233,7 +277,6 @@ public class AvlNodeTest {
     void Given_AnEmptyNode_When_SettingANewClosestNode_Then_UpdatesClosestNode(){
       AvlNode<Integer> avlNode = new AvlNode<>(6);
       AvlNode<Integer> newClosestNode = new AvlNode<>(6);
-
       avlNode.setClosestNode(newClosestNode);
 
       AvlNode<Integer> expectedValue = newClosestNode;
