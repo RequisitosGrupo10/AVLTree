@@ -510,6 +510,32 @@ public class AvlTreeTest {
     }
 
     @Test
+    @DisplayName("Inserting nodes to the right child leads to the correct rebalance")
+    public void given_empty_tree_when_insert_five_nodes_to_its_right_child_then_the_rebalance_is_done_correctly() {
+        AvlNode<Integer> node1, node2, node3, node4, node5;
+        node1 = new AvlNode<Integer>(7);
+        node2 = new AvlNode<Integer>(8);
+        node3 = new AvlNode<Integer>(9);
+        node4 = new AvlNode<Integer>(10);
+        node5 = new AvlNode<Integer>(11);
+        avlTree.insertAvlNode(node1);
+        avlTree.insertAvlNode(node2);
+        avlTree.insertAvlNode(node3);
+        avlTree.insertAvlNode(node4);
+        avlTree.insertAvlNode(node5);
+        assertEquals(node2, avlTree.getTop());
+        assertEquals(node4, node2.getRight());
+        assertEquals(node1, node2.getLeft());
+        assertEquals(node5, node4.getRight());
+        assertEquals(node3, node4.getLeft());
+        assertEquals(2, avlTree.getTop().getHeight());
+        assertEquals(1, node4.getHeight());
+        assertEquals(0, node1.getHeight());
+        String tree = " | 8 | 7 | 10 | 9 | 11";
+        assertEquals(tree, avlTree.toString());
+    }
+
+    @Test
     @DisplayName("New element inserted correctly into the tree")
     void give_empty_tree_when_insert_is_called_then_item_inserted_correctly() {
         Integer item = 5;
