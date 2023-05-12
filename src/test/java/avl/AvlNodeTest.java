@@ -18,38 +18,37 @@ public class AvlNodeTest {
       emptyNode = new AvlNode<>(item);
     }
 
-
     @AfterAll
-    public static void tearDown() throws Exception {
+    static void tearDown() throws Exception {
       emptyNode = null;
     }
     @Test
     @DisplayName("Has no left node")
-    public void Given_AnEmptyNode_When_AskingIfItHasALeftHasLeftChild_Then_ReturnsFalse() {
+    void Given_AnEmptyNode_When_AskingIfItHasALeftHasLeftChild_Then_ReturnsFalse() {
       Assertions.assertFalse(emptyNode.hasLeft());
     }
 
     @Test
     @DisplayName("Has no right node")
-    public void Given_AnEmptyNode_When_AskingIfItHasALeftHasRightChild_Then_ReturnsFalse() {
+    void Given_AnEmptyNode_When_AskingIfItHasALeftHasRightChild_Then_ReturnsFalse() {
       Assertions.assertFalse(emptyNode.hasRight());
     }
 
     @Test
     @DisplayName("Has no right node")
-    public void Given_AnEmptyNode_When_AskingIfItHasAParent_Then_ReturnsFalse() {
+    void Given_AnEmptyNode_When_AskingIfItHasAParent_Then_ReturnsFalse() {
       Assertions.assertFalse(emptyNode.hasParent());
     }
 
     @Test
     @DisplayName("Is a leaf")
-    public void Given_AnEmptyNode_When_AskingIfItIsALeaf_Then_ReturnsTrue() {
+    void Given_AnEmptyNode_When_AskingIfItIsALeaf_Then_ReturnsTrue() {
       Assertions.assertTrue(emptyNode.isLeaf());
     }
 
     @Test
     @DisplayName("Has no right node")
-    public void Given_AnEmptyNode_When_AskingIfItIseaf_Then_ReturnsFalse() {
+    void Given_AnEmptyNode_When_AskingIfItIseaf_Then_ReturnsFalse() {
       int expectedValue = 0;
       int actualValue =  emptyNode.getHeight();
 
@@ -58,31 +57,31 @@ public class AvlNodeTest {
 
     @Test
     @DisplayName("Right node is null")
-    public void Given_AnEmptyNode_When_GettingRightNode_Then_ReturnsNull() {
+    void Given_AnEmptyNode_When_GettingRightNode_Then_ReturnsNull() {
       Assertions.assertNull(emptyNode.getRight());
     }
 
     @Test
     @DisplayName("Left node is null")
-    public void Given_AnEmptyNode_When_GettingLeftNode_Then_ReturnsNull() {
+    void Given_AnEmptyNode_When_GettingLeftNode_Then_ReturnsNull() {
       Assertions.assertNull(emptyNode.getLeft());
     }
 
     @Test
     @DisplayName("Parent node is null")
-    public void Given_AnEmptyNode_When_GettingParentNode_Then_ReturnsNull() {
+    void Given_AnEmptyNode_When_GettingParentNode_Then_ReturnsNull() {
       Assertions.assertNull(emptyNode.getParent());
     }
 
     @Test
     @DisplayName("Closest node is null")
-    public void Given_AnEmptyNode_When_GettingClosestNode_Then_ReturnsNull() {
+    void Given_AnEmptyNode_When_GettingClosestNode_Then_ReturnsNull() {
       Assertions.assertNull(emptyNode.getClosestNode());
     }
 
     @Test
     @DisplayName("Getting item returns the item passed on constructor")
-    public void Given_AnEmptyNode_When_GettingItem_Then_ReturnsItemOnConstruction() {
+    void Given_AnEmptyNode_When_GettingItem_Then_ReturnsItemOnConstruction() {
       Object expectedItem = item;
       Object actualItem = emptyNode.getItem();
 
@@ -108,31 +107,31 @@ public class AvlNodeTest {
 
 
     @AfterAll
-    public static void tearDown() throws Exception {
+    static void tearDown() throws Exception {
       nodeWithLeftChild = null;
     }
 
     @Test
     @DisplayName("Has only left child")
-    public void Given_ANodeWithOnlyALeftChild_When_AskingIfItOnlyHasOnlyLeftNode_Then_ReturnsTrue() {
+    void Given_ANodeWithOnlyALeftChild_When_AskingIfItOnlyHasOnlyLeftNode_Then_ReturnsTrue() {
       Assertions.assertTrue(nodeWithLeftChild.hasOnlyALeftChild());
     }
 
     @Test
     @DisplayName("Has not only right child")
-    public void Given_ANodeWithOnlyALeftChild_When_AskingIfItOnlyHasOnlyRightNode_Then_ReturnsFalse() {
+    void Given_ANodeWithOnlyALeftChild_When_AskingIfItOnlyHasOnlyRightNode_Then_ReturnsFalse() {
       Assertions.assertFalse(nodeWithLeftChild.hasOnlyARightChild());
     }
 
     @Test
     @DisplayName("Is not a leaf")
-    public void Given_ANodeWithOnlyALeftChild_When_AskingIfItIsALeaf_Then_ReturnsFalse() {
+    void Given_ANodeWithOnlyALeftChild_When_AskingIfItIsALeaf_Then_ReturnsFalse() {
       Assertions.assertFalse(nodeWithLeftChild.isLeaf());
     }
 
     @Test
     @DisplayName("Height is equal to 1")
-    public void Given_ANodeWithOnlyALeftChild_When_AskingItsHeight_Then_ReturnsOne() {
+    void Given_ANodeWithOnlyALeftChild_When_AskingItsHeight_Then_ReturnsOne() {
       int expectedValue = 1;
       int actualValue = nodeWithLeftChild.getHeight();
 
@@ -158,31 +157,31 @@ public class AvlNodeTest {
 
 
     @AfterAll
-    public static void tearDown() throws Exception {
+    static void tearDown() throws Exception {
       nodeWithRightChild = null;
     }
 
     @Test
     @DisplayName("Has not only left child")
-    public void Given_ANodeWithOnlyARightChild_When_AskingIfItOnlyHasOnlyLeftNode_Then_ReturnsFalse() {
+    void Given_ANodeWithOnlyARightChild_When_AskingIfItOnlyHasOnlyLeftNode_Then_ReturnsFalse() {
       Assertions.assertFalse(nodeWithRightChild.hasOnlyALeftChild());
     }
 
     @Test
     @DisplayName("Has only right child")
-    public void Given_ANodeWithOnlyARightChild_When_AskingIfItOnlyHasOnlyLeftNode_Then_ReturnsTrue() {
+    void Given_ANodeWithOnlyARightChild_When_AskingIfItOnlyHasOnlyLeftNode_Then_ReturnsTrue() {
       Assertions.assertTrue(nodeWithRightChild.hasOnlyARightChild());
     }
 
     @Test
     @DisplayName("Is not a leaf")
-    public void Given_ANodeWithOnlyARightChild_When_AskingIfItIsALeaf_Then_ReturnsFalse() {
+    void Given_ANodeWithOnlyARightChild_When_AskingIfItIsALeaf_Then_ReturnsFalse() {
       Assertions.assertFalse(nodeWithRightChild.isLeaf());
     }
 
     @Test
     @DisplayName("Height is equal to 1")
-    public void Given_ANodeWithOnlyARightChild_When_AskingItsHeight_Then_ReturnsOne() {
+    void Given_ANodeWithOnlyARightChild_When_AskingItsHeight_Then_ReturnsOne() {
       int expectedValue = 1;
       int actualValue = nodeWithRightChild.getHeight();
 
@@ -210,25 +209,25 @@ public class AvlNodeTest {
     }
 
     @AfterAll
-    public static void tearDown() throws Exception {
+    static void tearDown() throws Exception {
       nodeWithTwoChildren = null;
     }
 
     @Test
     @DisplayName("Is not a leaf")
-    public void Given_ANodeWithTwoChildren_When_AskingIfItIsALeaf_Then_ReturnsFalse() {
+    void Given_ANodeWithTwoChildren_When_AskingIfItIsALeaf_Then_ReturnsFalse() {
       Assertions.assertFalse(nodeWithTwoChildren.isLeaf());
     }
 
     @Test
     @DisplayName("Has not only left child")
-    public void Given_ANodeWithTwoChildren_When_AskingIfItOnlyHasOnlyLeftNode_Then_ReturnsFalse() {
+    void Given_ANodeWithTwoChildren_When_AskingIfItOnlyHasOnlyLeftNode_Then_ReturnsFalse() {
       Assertions.assertFalse(nodeWithTwoChildren.hasOnlyALeftChild());
     }
 
     @Test
     @DisplayName("Has not only right child")
-    public void Given_ANodeWithTwoChildren_When_AskingIfItOnlyHasOnlyRightNode_Then_ReturnsFalse() {
+    void Given_ANodeWithTwoChildren_When_AskingIfItOnlyHasOnlyRightNode_Then_ReturnsFalse() {
       Assertions.assertFalse(nodeWithTwoChildren.hasOnlyARightChild());
     }
   }
