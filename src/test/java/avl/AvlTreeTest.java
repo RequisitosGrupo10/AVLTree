@@ -740,9 +740,42 @@ public class AvlTreeTest {
     }
 
     @Test
-    @DisplayName("Insertar nodo que ya existe no hace nada")
-    public void insertExistingNodeDoesNothing(){
+    @DisplayName("Inserting item that is already exist does nothing")
+    void given_tree_with_element_when_insert_same_element_then_nothing_is_inserted(){
+        Integer item = 1;
+        avlTree.insert(item);
+        int currentHeight = avlTree.height(avlTree.getTop());
 
+        avlTree.insert(item);
+        int heightAfterInsert = avlTree.height(avlTree.getTop());
+
+        assertEquals(currentHeight, heightAfterInsert);
+    }
+
+    @Test
+    @DisplayName("Eliminate the node that does not exists does nothing")
+    void given_tree_with_no_element_when_delete_the_element_then_nothing_is_removed(){
+        Integer item = 1;
+        avlTree.insert(item);
+        int currentHeight = avlTree.height(avlTree.getTop());
+
+        Integer otherItem = 2;
+        avlTree.delete(otherItem);
+        int heightAfterDelete = avlTree.height(avlTree.getTop());
+
+        assertEquals(currentHeight, heightAfterDelete);
+    }
+
+    @Test
+    @DisplayName("find successor returns null when passed node with only left child")
+    void given_a_node_with_only_left_child_when_find_successor_called_then_returns_null(){
+        Integer topItem = 2;
+        Integer leftChild = 1;
+        avlTree.insert(topItem);
+        avlTree.insert(leftChild);
+
+        AvlNode<Integer> topNode = avlTree.getTop();
+        assertNull(avlTree.findSuccessor(topNode));
     }
 
 }
