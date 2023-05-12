@@ -36,7 +36,7 @@ public class AvlTree<T> {
   /**
    * Constructor
    *
-   * @param comparator
+   * @param comparator comparator of the items
    */
   public AvlTree(Comparator<T> comparator) {
     top = null;
@@ -55,14 +55,10 @@ public class AvlTree<T> {
       int result = searchClosestNode(node);
 
       switch (result) {
-        case -1:
-          insertNodeLeft(node);
-          break;
-        case +1:
-          insertNodeRight(node);
-          break;
-        default:
-          break;
+        case -1 -> insertNodeLeft(node);
+        case +1 -> insertNodeRight(node);
+        default -> {
+        }
       }
     }
   }
@@ -160,14 +156,14 @@ public class AvlTree<T> {
   }
 
   public void deleteNodeWithALeftChild(AvlNode<T> node) {
-    node.setItem((T) node.getLeft().getItem());
+    node.setItem(node.getLeft().getItem());
     node.setLeft(null);
     node.updateHeight();
     rebalance(node);
   }
 
   public void deleteNodeWithARightChild(AvlNode<T> node) {
-    node.setItem((T) node.getRight().getItem());
+    node.setItem(node.getRight().getItem());
     node.setRight(null);
     node.updateHeight();
     rebalance(node);
@@ -182,40 +178,44 @@ public class AvlTree<T> {
    */
   public int searchClosestNode(AvlNode<T> node) {
     AvlNode<T> currentNode;
-    int result = 0;
 
     currentNode = top;
     if (top == null) {
-      result = 0;
-    } else {
-      int comparison;
-      boolean notFound = true;
-      while (notFound) {
-        comparison = compareNodes(node, currentNode);
-        if (comparison < 0) {
-          if (currentNode.hasLeft()) {
-            currentNode = currentNode.getLeft();
-          } else {
-            notFound = false;
-            node.setClosestNode(currentNode);
-            result = -1;
-          }
-        } else if (comparison > 0) {
-          if (currentNode.hasRight()) {
-            currentNode = currentNode.getRight();
-          } else {
-            notFound = false;
-            node.setClosestNode(currentNode);
-            result = 1;
-          }
+      return 0;
+    }
+    return getClosestNodeResult(node, currentNode);
+  }
+
+  private int getClosestNodeResult(AvlNode<T> node, AvlNode<T> currentNode) {
+    int comparison;
+    int result;
+    boolean notFound;
+
+    notFound = true;
+    result = 0;
+    while (notFound) {
+      comparison = compareNodes(node, currentNode);
+      if (comparison < 0) {
+        if (currentNode.hasLeft()) {
+          currentNode = currentNode.getLeft();
         } else {
           notFound = false;
           node.setClosestNode(currentNode);
-          result = 0;
+          result = -1;
         }
+      } else if (comparison > 0) {
+        if (currentNode.hasRight()) {
+          currentNode = currentNode.getRight();
+        } else {
+          notFound = false;
+          node.setClosestNode(currentNode);
+          result = 1;
+        }
+      } else {
+        notFound = false;
+        node.setClosestNode(currentNode);
       }
     }
-
     return result;
   }
 
@@ -262,9 +262,9 @@ public class AvlTree<T> {
   /**
    * Comparator
    *
-   * @param node1
-   * @param node2
-   * @return The experimentoutput of the comparison according to the comparators
+   * @param node1 the first node to be compared
+   * @param node2 the second node to be compared
+   * @return The experiment output of the comparison according to the comparators
    */
   public int compareNodes(AvlNode<T> node1, AvlNode<T> node2) {
     return comparator.compare(node1.getItem(), node2.getItem());
@@ -276,30 +276,35 @@ public class AvlTree<T> {
 
     currentNode = node;
     notFinished = true;
-
     while (notFinished) {
-      if (getBalance(currentNode) == -2) {
-        if (height(currentNode.getLeft().getLeft()) >= height(currentNode.getLeft().getRight())) {
-          leftRotation(currentNode);
-        } else {
-          doubleLeftRotation(currentNode);
-        }
-      }
-
-      if (getBalance(currentNode) == 2) {
-        if (height(currentNode.getRight().getRight()) >= height(currentNode.getRight().getLeft())) {
-          rightRotation(currentNode);
-        } else {
-          doubleRightRotation(currentNode);
-        }
-      }
-
+      balanceLeftRotation(currentNode);
+      balanceRightRotation(currentNode);
       if (currentNode.hasParent()) {
         currentNode.getParent().updateHeight();
         currentNode = currentNode.getParent();
       } else {
         setTop(currentNode);
         notFinished = false;
+      }
+    }
+  }
+
+  private void balanceRightRotation(AvlNode<T> currentNode) {
+    if (getBalance(currentNode) == 2) {
+      if (height(currentNode.getRight().getRight()) >= height(currentNode.getRight().getLeft())) {
+        rightRotation(currentNode);
+      } else {
+        doubleRightRotation(currentNode);
+      }
+    }
+  }
+
+  private void balanceLeftRotation(AvlNode<T> currentNode) {
+    if (getBalance(currentNode) == -2) {
+      if (height(currentNode.getLeft().getLeft()) >= height(currentNode.getLeft().getRight())) {
+        leftRotation(currentNode);
+      } else {
+        doubleLeftRotation(currentNode);
       }
     }
   }
