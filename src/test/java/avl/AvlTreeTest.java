@@ -571,4 +571,47 @@ public class AvlTreeTest {
         assertNull(avlTree.findSuccessor(topNode));
     }
 
+    @Test
+    @DisplayName("Successfully deletes a node that has left child")
+    void given_tree_with_left_child_when_the_head_removed_then_left_child_becomes_head(){
+        Integer topItem = 2;
+        Integer leftChild = 1;
+        avlTree.insert(topItem);
+        avlTree.insert(leftChild);
+
+        avlTree.delete(topItem);
+        AvlNode<Integer> actualNodeAfterRemoving = avlTree.getTop();
+        AvlNode<Integer> expectedNodeAfterRemoving = new AvlNode<>(leftChild);
+
+        assertEquals(0, avlTree.compareNodes(expectedNodeAfterRemoving, actualNodeAfterRemoving));
+    }
+
+    @Test
+    @DisplayName("Successfully deletes the top node of the tree that has only one element")
+    void given_tree_with_one_element_when_element_is_removed_then_tree_has_zero_elements(){
+        Integer topItem = 2;
+        avlTree.insert(topItem);
+
+        int heightBeforeRemoving = avlTree.height(avlTree.getTop());
+        avlTree.delete(topItem);
+        int heightAfterRemoving = avlTree.height(avlTree.getTop());
+
+        assertEquals(heightBeforeRemoving, heightAfterRemoving + 1 );
+        assertNull(avlTree.getTop());
+    }
+
+    @Test
+    @DisplayName("Successfully deletes left leaf node")
+    void given_tree_with_left_leaf_child_when_the_child_removed_then_parent_becomes_leaf(){
+        Integer topItem = 2;
+        Integer leftChild = 1;
+        avlTree.insert(topItem);
+        avlTree.insert(leftChild);
+
+        avlTree.delete(leftChild);
+        AvlNode<Integer> topNode = avlTree.getTop();
+
+        assertTrue(topNode.isLeaf());
+    }
+
 }
