@@ -30,21 +30,21 @@ public class AvlTreeTest {
         comparator = null;
     }
 
-  @DisplayName("Given an empty AVL Tree then is empty")
-  @Test
-  public void given_AnEmptyAVLTree_When_AskingIfItIsEmpty_Then_ReturnTrue() throws Exception {
-    assertTrue("TestAvlIsEmpty", avlTree.avlIsEmpty());
-  }
+    @DisplayName("Given an empty AVL Tree then is empty")
+    @Test
+    public void given_AnEmptyAVLTree_When_AskingIfItIsEmpty_Then_ReturnTrue() throws Exception {
+        assertTrue(avlTree.avlIsEmpty());
+    }
 
-  @DisplayName("Given an empty AVL Tree when inserting a node on top then element on top is node element")
-  @Test
-  public void given_AnEmptyAVLTree_When_InsertingANodeOnTop_Then_ElementOnTopIsNodeElement() throws Exception {
-    AvlNode<Integer> node = new AvlNode(4);
-    avlTree.insertTop(node);
-    assertEquals("TestInsertTop", node, avlTree.getTop());
-    String tree = " | 4";
-    assertEquals("TestInsertTop", tree, avlTree.toString());
-  }
+    @DisplayName("Given an empty AVL Tree when inserting a node on top then element on top is node element")
+    @Test
+    public void given_AnEmptyAVLTree_When_InsertingANodeOnTop_Then_ElementOnTopIsNodeElement() throws Exception {
+        AvlNode<Integer> node = new AvlNode(4);
+        avlTree.insertTop(node);
+        assertEquals(node, avlTree.getTop());
+        String tree = " | 4";
+        assertEquals("TestInsertTop", tree, avlTree.toString());
+    }
 
     @Test
     @DisplayName(" when an Item is inserted the AVL tree is not empty")
