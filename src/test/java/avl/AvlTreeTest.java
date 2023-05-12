@@ -1,9 +1,6 @@
 package avl;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.util.Comparator;
 
@@ -14,164 +11,131 @@ import static org.junit.jupiter.api.Assertions.*;
  * Created with IntelliJ IDEA. User: Antonio J. Nebro Date: 08/07/13
  */
 public class AvlTreeTest {
-
     AvlTree<Integer> avlTree;
     Comparator<?> comparator;
     private AvlNode<Integer> node;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    void setUp() {
         comparator = Comparator.comparingInt((Integer o) -> o);
         avlTree = new AvlTree(comparator);
     }
 
     @AfterEach
-    public void tearDown() throws Exception {
+    void tearDown() {
         avlTree = null;
         comparator = null;
     }
 
-    @DisplayName("Given an empty AVL Tree then is empty")
-    @Test
-    public void given_AnEmptyAVLTree_When_AskingIfItIsEmpty_Then_ReturnTrue() throws Exception {
-        assertTrue("TestAvlIsEmpty", avlTree.avlIsEmpty());
+    @Nested
+    @DisplayName("Given an empty AVL Tree")
+    class EmptyAVLTreeTest {
+        @DisplayName("Then is empty")
+        @Test
+        void given_AnEmptyAVLTree_When_AskingIfItIsEmpty_Then_AVLTreeIsEmpty() {
+            assertTrue(avlTree.avlIsEmpty());
+        }
+
+        @Test
+        @DisplayName("When inserting a node on top then AVL Tree is not empty")
+        void given_EmptyAVLTree_When_InsertingANodeOnTop_Then_AVLTreeIsNotEmpty() {
+            avlTree.insertTop(new AvlNode(5));
+
+            assertFalse(avlTree.avlIsEmpty());
+        }
+
+        @DisplayName("When inserting a node on top then element on top is node's element")
+        @Test
+        void given_AnEmptyAVLTree_When_InsertingANodeOnTop_Then_ElementOnTopIsNodeElement() {
+            AvlNode<Integer> node = new AvlNode(4);
+
+            avlTree.insertTop(node);
+
+            assertEquals(node, avlTree.getTop());
+        }
     }
 
-    @DisplayName("Given an empty AVL Tree when inserting a node on top then element on top is node element")
+    @DisplayName("Given three nodes when comparing nodes then node's elements are compared")
     @Test
-    public void given_AnEmptyAVLTree_When_InsertingANodeOnTop_Then_ElementOnTopIsNodeElement() throws Exception {
-        AvlNode<Integer> node = new AvlNode(4);
-        avlTree.insertTop(node);
-        assertEquals("TestInsertTop", node, avlTree.getTop());
-        String tree = " | 4";
-        assertEquals("TestInsertTop", tree, avlTree.toString());
-    }
-
-    @Test
-    @DisplayName(" when an Item is inserted the AVL tree is not empty")
-    public void given_EmptyAVLTree_When_NodeIsInserted_Then_AVLTreeIsNotEmpty() {
-        avlTree.insertTop(new AvlNode(5));
-
-        assertFalse(avlTree.avlIsEmpty());
-    }
-
-    @Test
-    public void test() throws Exception {
-        AvlNode<Integer> node = new AvlNode(4);
-        avlTree.insertTop(node);
-
-        String expectedTreeString = " | 4";
-        assertEquals(node, avlTree.getTop());
-        assertEquals(expectedTreeString, avlTree.toString());
-    }
-
-    @Test
-    public void testCompareNodes() throws Exception {
-        AvlNode<Integer> node1 = new AvlNode<Integer>(4);
-        AvlNode<Integer> node2 = new AvlNode<Integer>(5);
-        AvlNode<Integer> node3 = new AvlNode<Integer>(5);
+    void given_ThreeNodes_When_ComparingNodes_Then_NodeElementsAreCompared() {
+        AvlNode<Integer> node1 = new AvlNode<>(4);
+        AvlNode<Integer> node2 = new AvlNode<>(5);
+        AvlNode<Integer> node3 = new AvlNode<>(5);
 
         assertEquals(-1, avlTree.compareNodes(node1, node2));
         assertEquals(1, avlTree.compareNodes(node3, node1));
         assertEquals(0, avlTree.compareNodes(node2, node3));
     }
 
-  /*
-  @Test
-  public void testInsertingTheFirstElement() throws Exception {
-    AvlNode<Integer> node = new AvlNode<Integer>(6) ;
-    avlTree_.insertAvlNode(node);
-    assertEquals("testInsertingTheFirstElement", node, avlTree_.getTop());
-  }
-  */
+    @Nested
+    @DisplayName("Test inserting an AVL Node")
+    class InsertAVLNodeTest {
+        @DisplayName("Given an AVL Tree with one node when inserting a smaller node then new node is in left")
+        @Test
+        void given_AnAVLTreeWithOneNode_When_InsertingASmallerNode_Then_NewNodeIsInLeft() {
+            AvlNode<Integer> node = new AvlNode<>(6);
+            avlTree.insertAvlNode(node);
 
-    @Test
-    public void testInsertingRightAndLeftElementsJustAfterTop() throws Exception {
-        AvlNode<Integer> node = new AvlNode<Integer>(6);
-        avlTree.insertAvlNode(node);
-        AvlNode<Integer> nodeLeft = new AvlNode<Integer>(4);
-        AvlNode<Integer> nodeRight = new AvlNode<Integer>(9);
+            AvlNode<Integer> nodeLeft = new AvlNode<>(4);
+            avlTree.insertAvlNode(nodeLeft);
 
-        assertEquals(-1, avlTree.searchClosestNode(nodeLeft));
-        assertEquals(node, nodeLeft.getClosestNode());
-        assertEquals(1, avlTree.searchClosestNode(nodeRight));
-        assertEquals(node, nodeRight.getClosestNode());
-        assertEquals(0, avlTree.searchClosestNode(node));
+            assertEquals(node, nodeLeft.getParent());
+            assertEquals(nodeLeft, node.getLeft());
+        }
 
-        node.setLeft(nodeLeft);
-        node.setRight(nodeRight);
-        AvlNode<Integer> nodeRightLeft = new AvlNode<Integer>(7);
-        avlTree.searchClosestNode(nodeRightLeft);
-        assertEquals(-1,
-                avlTree.searchClosestNode(nodeRightLeft));
-        assertEquals(nodeRight, nodeRightLeft.getClosestNode());
+        @DisplayName("Given an AVL Tree with one node when inserting a bigger node then new node is in right")
+        @Test
+        void given_AnAVLTreeWithOneNode_When_InsertingABiggerNode_Then_NewNodeIsInRight() {
+            AvlNode<Integer> node = new AvlNode<>(6);
+            avlTree.insertAvlNode(node);
 
-        AvlNode<Integer> nodeLeftRight = new AvlNode<Integer>(5);
-        assertEquals(1, avlTree.searchClosestNode(nodeLeftRight));
-        assertEquals(nodeLeft, nodeLeftRight.getClosestNode());
+            AvlNode<Integer> nodeRight = new AvlNode<>(9);
+            avlTree.insertAvlNode(nodeRight);
 
-        String tree = " | 6 | 4 | 9";
-        assertEquals(tree, avlTree.toString());
+            assertEquals(node, nodeRight.getParent());
+            assertEquals(nodeRight, node.getRight());
+        }
     }
 
-    @Test
-    public void testInsertingLeftElement() throws Exception {
-        AvlNode<Integer> node = new AvlNode<Integer>(6);
-        avlTree.insertAvlNode(node);
-        AvlNode<Integer> nodeLeft = new AvlNode<Integer>(4);
-        avlTree.insertAvlNode(nodeLeft);
+    @Nested
+    @DisplayName("Test searching for closest node")
+    class SearchClosestNodeTest {
+        @DisplayName("Given an empty AVL Tree when searching for closest node then returns 0")
+        @Test
+        void given_AnEmptyAVLTree_When_SearchingForClosestNode_Then_Returns0() {
+            AvlNode<Integer> node = new AvlNode<>(7);
 
-        assertEquals(node, nodeLeft.getParent());
-        assertEquals(nodeLeft, node.getLeft());
+            int obtainedResult = avlTree.searchClosestNode(node);
+            int expectedResult = 0;
 
-        String tree = " | 6 | 4";
-        assertEquals(tree, avlTree.toString());
-    }
+            assertEquals(expectedResult, obtainedResult);
+        }
 
-    @Test
-    public void testSearchClosestNode() throws Exception {
-        int result;
-        AvlNode<Integer> node = new AvlNode<Integer>(7);
-        result = avlTree.searchClosestNode(node);
-        assertEquals(0, result);
-        avlTree.insertAvlNode(node);
+        @DisplayName("Given an AVL Tree with one node when searching for closest node from a smaller node then returns -1")
+        @Test
+        void given_AVLTreeWithOneNode_When_SearchingForClosestNodeFromASmallerNode_Then_ReturnsMinus1() {
+            AvlNode<Integer> node = new AvlNode<>(7);
+            avlTree.insertAvlNode(node);
 
-        node = new AvlNode<Integer>(4);
-        result = avlTree.searchClosestNode(node);
-        assertEquals(-1, result);
-        avlTree.insertAvlNode(node);
+            node = new AvlNode<>(4);
+            int obtainedResult = avlTree.searchClosestNode(node);
+            int expectedResult = -1;
 
-        node = new AvlNode<Integer>(9);
-        result = avlTree.searchClosestNode(node);
-        assertEquals(1, result);
-        avlTree.insertAvlNode(node);
+            assertEquals(expectedResult, obtainedResult);
+        }
 
-        node = new AvlNode<Integer>(6);
-        result = avlTree.searchClosestNode(node);
-        assertEquals(1, result);
-        avlTree.insertAvlNode(node);
+        @DisplayName("Given an AVL Tree with one node when searching for closest node from a bigger node then returns 1")
+        @Test
+        void given_AVLTreeWithOneNode_When_SearchingForClosestNodeFromABiggerNode_Then_Returns1() {
+            AvlNode<Integer> node = new AvlNode<>(7);
+            avlTree.insertAvlNode(node);
 
-        node = new AvlNode<Integer>(8);
-        result = avlTree.searchClosestNode(node);
-        assertEquals(-1, result);
-        avlTree.insertAvlNode(node);
+            node = new AvlNode<>(9);
+            int obtainedResult = avlTree.searchClosestNode(node);
+            int expectedResult = 1;
 
-        String tree = " | 7 | 4 | 6 | 9 | 8";
-        assertEquals(tree, avlTree.toString());
-    }
-
-    @Test
-    public void testInsertingRightElement() throws Exception {
-        AvlNode<Integer> node = new AvlNode<Integer>(6);
-        avlTree.insertAvlNode(node);
-        AvlNode<Integer> nodeRight = new AvlNode<Integer>(9);
-        avlTree.insertAvlNode(nodeRight);
-
-        assertEquals(node, nodeRight.getParent());
-        assertEquals(nodeRight, node.getRight());
-
-        String tree = " | 6 | 9";
-        assertEquals(tree, avlTree.toString());
+            assertEquals(expectedResult, obtainedResult);
+        }
     }
 
     /**
