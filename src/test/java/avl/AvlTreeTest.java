@@ -711,17 +711,37 @@ public class AvlTreeTest {
     @DisplayName("New element inserted correctly into the tree")
     public void give_empty_tree_when_insert_is_called_then_item_iserted_correctly() {
         Integer item = 5;
+
         avlTree.insert(item);
+
         AvlNode<Integer> expectedValue = new AvlNode<>(item);
         AvlNode<Integer> actualValue = avlTree.search(item);
         assertEquals(0, avlTree.compareNodes(expectedValue, actualValue));
     }
 
     @Test
-    @DisplayName("Buscar nodo en un árbol vacío devuelve null")
+    @DisplayName("Search for element in empty tree returns null")
     public void given_empty_tree_when_search_for_element_ther_returns_null() {
         Integer item = 5;
+
+        AvlNode<Integer> expectedValue = avlTree.search(item);
+
         assertTrue(avlTree.avlIsEmpty());
-        assertNull(avlTree.search(item));
+        assertNull(expectedValue);
     }
+
+    // TODO CHANGE IT
+    @Test
+    @DisplayName("Correctly eliminates node which successor has only one left child")
+    public void deleteNodeWithLeftChildOnly() {
+        Integer headItem = 2;
+        Integer leftItem = 1;
+        avlTree.insert(headItem);
+        avlTree.insert(leftItem);
+
+        avlTree.delete(headItem);
+
+        assertEquals(0, avlTree.compareNodes(new AvlNode<>(leftItem), avlTree.getTop()));
+    }
+
 }
