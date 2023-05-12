@@ -37,7 +37,9 @@ public class AvlNode<T> {
   private T item;
 
   /**
-   * Constructor
+   * Constructor of an empty node, sets the fields to null or 0
+   * And initializes item to the parameter that was passed to the
+   * constructor
    *
    * @param item
    */
@@ -91,6 +93,10 @@ public class AvlNode<T> {
     this.height = height;
   }
 
+  /**
+   * Updates the height field by calculating maximum height of their children
+   * plus one, or 0 if it has none.
+   */
   public void updateHeight() {
     if (!hasLeft() && !hasRight()) {
       height = 0;
