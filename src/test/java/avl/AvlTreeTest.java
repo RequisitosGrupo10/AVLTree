@@ -715,4 +715,22 @@ public class AvlTreeTest {
         avlTree.delete(20);
         assertEquals(" | 12 | 8 | 4 | 10 | 22 | 14 | 24", avlTree.toString());
     }
+
+    @Test
+    @DisplayName("New element inserted correctly into the tree")
+    public void give_empty_tree_when_insert_is_called_then_item_iserted_correctly() {
+        Integer item = 5;
+        avlTree.insert(item);
+        AvlNode<Integer> expectedValue = new AvlNode<>(item);
+        AvlNode<Integer> actualValue = avlTree.search(item);
+        assertEquals(0, avlTree.compareNodes(expectedValue, actualValue));
+    }
+
+    @Test
+    @DisplayName("Buscar nodo en un árbol vacío devuelve null")
+    public void given_empty_tree_when_search_for_element_ther_returns_null() {
+        Integer item = 5;
+        assertTrue(avlTree.avlIsEmpty());
+        assertNull(avlTree.search(item));
+    }
 }
