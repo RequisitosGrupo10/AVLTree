@@ -43,7 +43,7 @@ public class AvlTreeTest {
         avlTree.insertTop(node);
         assertEquals(node, avlTree.getTop());
         String tree = " | 4";
-        assertEquals("TestInsertTop", tree, avlTree.toString());
+        assertEquals(tree, avlTree.toString());
     }
 
     @Test
