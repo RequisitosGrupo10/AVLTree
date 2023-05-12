@@ -59,7 +59,7 @@ public class AvlTree<T> {
   }
 
   public AvlNode<T> search(T item) {
-    AvlNode<T> node = new AvlNode<T>(item);
+    AvlNode<T> node = new AvlNode<>(item);
     return searchNode(node);
   }
 
@@ -106,7 +106,7 @@ public class AvlTree<T> {
   }
 
   public void delete(T item) {
-    deleteNode(new AvlNode<T>(item));
+    deleteNode(new AvlNode<>(item));
   }
 
   public void deleteNode(AvlNode<T> node) {
