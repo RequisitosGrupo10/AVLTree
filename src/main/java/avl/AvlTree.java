@@ -51,15 +51,10 @@ public class AvlTree<T> {
   public void insertAvlNode(AvlNode<T> node) {
     if (avlIsEmpty()) {
       insertTop(node);
-    } else {
-      int result = searchClosestNode(node);
-
-      switch (result) {
-        case -1 -> insertNodeLeft(node);
-        case +1 -> insertNodeRight(node);
-        default -> {
-        }
-      }
+    } else if (searchClosestNode(node) == -1) {
+      insertNodeLeft(node);
+    } else if (searchClosestNode(node) == +1) {
+      insertNodeRight(node);
     }
   }
 
@@ -125,19 +120,23 @@ public class AvlTree<T> {
         deleteNodeWithALeftChild(nodeFound);
       } else if (nodeFound.hasOnlyARightChild()) {
         deleteNodeWithARightChild(nodeFound);
-      } else { // has two children
-        AvlNode<T> successor = findSuccessor(nodeFound);
-        T tmp = successor.getItem();
-        successor.setItem(nodeFound.getItem());
-        nodeFound.setItem(tmp);
-        if (successor.isLeaf()) {
-          deleteLeafNode(successor);
-        } else if (successor.hasOnlyALeftChild()) {
-          deleteNodeWithALeftChild(successor);
-        } else if (successor.hasOnlyARightChild()) {
-          deleteNodeWithARightChild(successor);
-        }
+      } else {
+        deleteNodeWithTwoChildren(nodeFound);
       }
+    }
+  }
+
+  private void deleteNodeWithTwoChildren(AvlNode<T> nodeFound) {
+    AvlNode<T> successor = findSuccessor(nodeFound);
+    T tmp = successor.getItem();
+    successor.setItem(nodeFound.getItem());
+    nodeFound.setItem(tmp);
+    if (successor.isLeaf()) {
+      deleteLeafNode(successor);
+    } else if (successor.hasOnlyALeftChild()) {
+      deleteNodeWithALeftChild(successor);
+    } else if (successor.hasOnlyARightChild()) {
+      deleteNodeWithARightChild(successor);
     }
   }
 
@@ -172,7 +171,7 @@ public class AvlTree<T> {
   /**
    * Searches for the closest node of the node passed as argument
    *
-   * @param node
+   * @param node node whose closest node is going to be searched
    * @return -1 if node has to be inserted in the left, +1 if it must be inserted in the right, 0
    * otherwise
    */

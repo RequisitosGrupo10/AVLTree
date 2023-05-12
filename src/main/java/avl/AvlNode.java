@@ -41,7 +41,7 @@ public class AvlNode<T> {
    * And initializes item to the parameter that was passed to the
    * constructor
    *
-   * @param item
+   * @param item internal item of the node
    */
   public AvlNode(T item) {
     this.left = null;
